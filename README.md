@@ -73,7 +73,7 @@ A Flask-based web application for analyzing, processing, and redlining Non-Discl
 
 - `application.py`: Main Flask application with routes and OpenAI integration
 - `advanced_redliner.py`: Document processing and redlining engine
-- `document_processor.py`: Python-based document processing utilities
+
 - `redlines.py`: XML Power Tools integration for professional redlining
 - `templates/`: HTML templates for the web interface
 - `static/`: CSS and JavaScript files

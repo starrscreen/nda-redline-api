@@ -63,36 +63,8 @@ credentials.json
 bin/
 binaries/
 temp_files/
-
-# Virtual Environment
-venv/
-ENV/
+*.tar.gz
 
 # AWS SAM
 .aws-sam/
-samconfig.toml
-
-# IDE
-.idea/
-.vscode/
-*.swp
-*.swo
-
-# Virtual Environment
-venv/
-ENV/
-
-# IDE
-.idea/
-.vscode/
-*.swp
-*.swo
-
-# AWS SAM
-.aws-sam/
-samconfig.toml
-
-# Project specific
-binaries/
-temp/
-*.tar.gz 
+samconfig.toml 
