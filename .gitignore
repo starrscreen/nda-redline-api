@@ -64,6 +64,10 @@ bin/
 binaries/
 temp_files/
 *.tar.gz
+logs/
+*.log
+nda_api.pid
+*.pid
 
 # AWS SAM
 .aws-sam/
