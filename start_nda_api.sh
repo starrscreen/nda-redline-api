@@ -45,7 +45,7 @@ fi
 echo "Starting NDA Redline API on port $PORT..."
 cd "$(dirname "$0")"  # Change to script directory
 source venv/bin/activate
-gunicorn --bind 0.0.0.0:$PORT application:application > "$GUNICORN_LOG" 2>&1 &
+gunicorn --bind 0.0.0.0:$PORT application:app > "$GUNICORN_LOG" 2>&1 &
 GUNICORN_PID=$!
 
 # Wait a bit for the app to start
