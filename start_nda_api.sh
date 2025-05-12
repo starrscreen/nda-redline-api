@@ -13,6 +13,21 @@ PID_FILE="$LOG_DIR/nda_api.pid"
 # Create logs directory if it doesn't exist
 mkdir -p "$LOG_DIR"
 
+# Check for existing ngrok processes
+EXISTING_NGROK=$(ps aux | grep ngrok | grep -v grep | awk '{print $2}')
+if [ -n "$EXISTING_NGROK" ]; then
+    echo "⚠️  Existing ngrok process found (PID: $EXISTING_NGROK)"
+    read -p "Do you want to kill the existing ngrok process? (y/n): " KILL_EXISTING
+    if [ "$KILL_EXISTING" = "y" ] || [ "$KILL_EXISTING" = "Y" ]; then
+        echo "Killing existing ngrok process..."
+        kill $EXISTING_NGROK
+        sleep 2
+    else
+        echo "Please stop the existing ngrok process first using: kill $EXISTING_NGROK"
+        exit 1
+    fi
+fi
+
 # Check if service is already running
 if [ -f "$PID_FILE" ]; then
     EXISTING_PID=$(cat "$PID_FILE")
@@ -59,6 +74,8 @@ sleep 3
 # Check if ngrok is really running
 if ! ps -p $NGROK_PID > /dev/null; then
     echo "ERROR: ngrok failed to start. Check logs at $NGROK_LOG"
+    echo "The error might be due to an existing ngrok session. Check for existing processes with: ps aux | grep ngrok"
+    echo "Kill any existing ngrok processes with: kill <PID>"
     kill $GUNICORN_PID
     exit 1
 fi

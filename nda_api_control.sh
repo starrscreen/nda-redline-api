@@ -4,13 +4,14 @@ PID_FILE="logs/nda_api.pid"
 COMMAND=$1
 
 function show_usage {
-    echo "Usage: $0 [status|stop|url|logs]"
+    echo "Usage: $0 [status|stop|url|logs|kill-ngrok]"
     echo ""
     echo "Commands:"
-    echo "  status    - Check if the NDA API service is running"
-    echo "  stop      - Stop the NDA API service"
-    echo "  url       - Show the ngrok URL for the NDA API"
-    echo "  logs      - Show the latest log files"
+    echo "  status     - Check if the NDA API service is running"
+    echo "  stop       - Stop the NDA API service"
+    echo "  url        - Show the ngrok URL for the NDA API"
+    echo "  logs       - Show the latest log files"
+    echo "  kill-ngrok - Kill any existing ngrok processes"
     echo ""
 }
 
@@ -51,6 +52,18 @@ function check_status {
         echo "Removing stale PID file"
         rm "$PID_FILE"
         return 1
+    fi
+}
+
+function kill_ngrok {
+    EXISTING_NGROK=$(ps aux | grep ngrok | grep -v grep | awk '{print $2}')
+    if [ -n "$EXISTING_NGROK" ]; then
+        echo "Found ngrok process with PID: $EXISTING_NGROK"
+        echo "Killing ngrok process..."
+        kill $EXISTING_NGROK
+        echo "✅ Ngrok process terminated"
+    else
+        echo "No running ngrok processes found"
     fi
 }
 
@@ -127,6 +140,9 @@ case "$COMMAND" in
         ;;
     logs)
         show_logs
+        ;;
+    kill-ngrok)
+        kill_ngrok
         ;;
     *)
         show_usage
