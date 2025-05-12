@@ -13,33 +13,61 @@ PID_FILE="$LOG_DIR/nda_api.pid"
 # Create logs directory if it doesn't exist
 mkdir -p "$LOG_DIR"
 
-# Check for existing ngrok processes
-EXISTING_NGROK=$(ps aux | grep ngrok | grep -v grep | awk '{print $2}')
-if [ -n "$EXISTING_NGROK" ]; then
-    echo "⚠️  Existing ngrok process found (PID: $EXISTING_NGROK)"
-    read -p "Do you want to kill the existing ngrok process? (y/n): " KILL_EXISTING
-    if [ "$KILL_EXISTING" = "y" ] || [ "$KILL_EXISTING" = "Y" ]; then
-        echo "Killing existing ngrok process..."
-        kill $EXISTING_NGROK
-        sleep 2
-    else
-        echo "Please stop the existing ngrok process first using: kill $EXISTING_NGROK"
-        exit 1
+# Function to clean up processes
+cleanup_processes() {
+    echo "🧹 Cleaning up existing processes..."
+    
+    # Kill any ngrok processes
+    EXISTING_NGROK=$(ps aux | grep ngrok | grep -v grep | awk '{print $2}')
+    if [ -n "$EXISTING_NGROK" ]; then
+        echo "  - Killing existing ngrok process(es)..."
+        kill $EXISTING_NGROK 2>/dev/null || true
     fi
-fi
-
-# Check if service is already running
-if [ -f "$PID_FILE" ]; then
-    EXISTING_PID=$(cat "$PID_FILE")
-    if ps -p "$EXISTING_PID" > /dev/null; then
-        echo "NDA API service is already running with PID $EXISTING_PID"
-        echo "To stop it, run: ./nda_api_control.sh stop"
-        exit 1
-    else
-        echo "Removing stale PID file"
+    
+    # Kill any gunicorn processes
+    EXISTING_GUNICORN=$(ps aux | grep gunicorn | grep -v grep | awk '{print $2}')
+    if [ -n "$EXISTING_GUNICORN" ]; then
+        echo "  - Killing existing gunicorn process(es)..."
+        kill $EXISTING_GUNICORN 2>/dev/null || true
+    fi
+    
+    # Wait a moment to let processes terminate
+    sleep 2
+    
+    # Force kill any stubborn processes
+    EXISTING_NGROK=$(ps aux | grep ngrok | grep -v grep | awk '{print $2}')
+    if [ -n "$EXISTING_NGROK" ]; then
+        echo "  - Force killing stubborn ngrok process(es)..."
+        kill -9 $EXISTING_NGROK 2>/dev/null || true
+    fi
+    
+    EXISTING_GUNICORN=$(ps aux | grep gunicorn | grep -v grep | awk '{print $2}')
+    if [ -n "$EXISTING_GUNICORN" ]; then
+        echo "  - Force killing stubborn gunicorn process(es)..."
+        kill -9 $EXISTING_GUNICORN 2>/dev/null || true
+    fi
+    
+    # Remove stale PID file if it exists
+    if [ -f "$PID_FILE" ]; then
+        echo "  - Removing stale PID file..."
         rm "$PID_FILE"
     fi
-fi
+    
+    # Check if port is still in use
+    if lsof -i :$PORT > /dev/null 2>&1; then
+        echo "  - Port $PORT is still in use. Attempting to free it..."
+        PROCESS_USING_PORT=$(lsof -t -i :$PORT)
+        if [ -n "$PROCESS_USING_PORT" ]; then
+            echo "  - Killing process using port $PORT: $PROCESS_USING_PORT"
+            kill -9 $PROCESS_USING_PORT 2>/dev/null || true
+        fi
+    fi
+    
+    echo "✅ Cleanup complete"
+}
+
+# Clean up existing processes before starting
+cleanup_processes
 
 # Start the Flask app with Gunicorn in the background
 echo "Starting NDA Redline API on port $PORT..."
@@ -74,8 +102,12 @@ sleep 3
 # Check if ngrok is really running
 if ! ps -p $NGROK_PID > /dev/null; then
     echo "ERROR: ngrok failed to start. Check logs at $NGROK_LOG"
-    echo "The error might be due to an existing ngrok session. Check for existing processes with: ps aux | grep ngrok"
-    echo "Kill any existing ngrok processes with: kill <PID>"
+    echo "This could be due to:"
+    echo "  - Another ngrok session running on your account"
+    echo "  - Network connectivity issues"
+    echo "  - Invalid domain configuration"
+    echo ""
+    echo "Check the ngrok log for details: cat $NGROK_LOG"
     kill $GUNICORN_PID
     exit 1
 fi
