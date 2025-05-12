@@ -1,0 +1,13 @@
+Key points to check and modify:
+1. Fill in the buyer name as "Long Point Capital"
+2. Fill in the date with today's date in the format "Month Day, Year"
+3. Ensure ability to share with financing sources
+4. Proper definition of Evaluation Material excluding third-party info
+5. Return/destroy materials only upon written request
+6. Destruction confirmation only if requested in writing
+7. Limited liability for errors in materials
+8. 2-year term with full expiration
+9. Include prevailing party litigation fees
+10. Include employee non-solicit exception for general recruitment
+11. Include appropriate non-compete language
+12. Include retention rights for compliance and record-keeping 

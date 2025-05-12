@@ -1,0 +1,19 @@
+{
+    "changes": [
+        {
+            "original_text": "Confidential Information",
+            "new_text": "Evaluation Material",
+            "reason": "Standardizing terminology to match preferred definition"
+        },
+        {
+            "original_text": "shall keep strictly confidential",
+            "new_text": "shall maintain as confidential",
+            "reason": "Using more precise language for confidentiality obligations"
+        },
+        {
+            "original_text": "for a period of five (5) years",
+            "new_text": "for a period of two (2) years",
+            "reason": "Aligning with preferred 2-year term guideline"
+        }
+    ]
+}

@@ -1,0 +1,60 @@
+/* Custom styles */
+#drop-zone {
+    transition: all 0.3s ease;
+}
+
+#drop-zone:hover {
+    border-color: #3b82f6;
+    background-color: #f8fafc;
+}
+
+#drop-zone.dragover {
+    border-color: #3b82f6;
+    background-color: #f0f9ff;
+}
+
+/* Smooth transitions */
+.transition-colors {
+    transition: all 0.3s ease;
+}
+
+/* Loading animation */
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.animate-spin {
+    animation: spin 1s linear infinite;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+    .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+}
+
+/* Style for the changes display */
+.change-item {
+    transition: all 0.2s ease;
+}
+
+.change-item:hover {
+    background-color: #f1f5f9;
+}
+
+/* Style for the download button */
+.download-button {
+    transition: all 0.2s ease;
+}
+
+.download-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+} 

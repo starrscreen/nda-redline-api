@@ -1,0 +1,12 @@
+# Common NDA insertions - format is: original|new|reason
+share|share, including with our financing sources|To ensure we can share information with potential funding partners
+a source not known by us to be bound by confidentiality|a source not known by us to be bound by confidentiality or which is or becomes public knowledge through no fault of ours|Clarifying public information exception
+return or destroy|return or destroy at our option|To provide flexibility in handling materials at the end of the agreement
+confirmation of destruction|confirmation of destruction only if so requested in writing|To reduce administrative burden
+errors in Evaluation Material|errors in Evaluation Material except as agreed to in definitive documentation|Limiting liability to final agreements
+1 Year Term|2 Year Term, with full expiration of all obligations thereafter|Longer term with clear end point
+non-prevailing party|non-prevailing party shall reimburse the prevailing party its reasonable legal fees|Adding fee-shifting provision for litigation
+solicitations for employment|general solicitations for employment not directed to target the Company or its employees|Clarifying that general job postings are permitted
+non-compete|nothing in this Agreement shall be construed to prevent you from engaging independently in similar activities|Ensuring the agreement doesn't prevent normal business operations
+Long Point Capital|Long Point Capital, Inc. or any of its affiliates|Ensuring proper entity coverage
+
