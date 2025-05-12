@@ -1,0 +1,8 @@
+[2025-05-12 14:05:44 -0400] [42779] [INFO] Starting gunicorn 23.0.0
+[2025-05-12 14:05:44 -0400] [42779] [INFO] Listening at: http://0.0.0.0:8000 (42779)
+[2025-05-12 14:05:44 -0400] [42779] [INFO] Using worker: sync
+[2025-05-12 14:05:44 -0400] [42781] [INFO] Booting worker with pid: 42781
+2025-05-12 14:05:44,658 - application - INFO - Using OpenAI client v1.x (version unknown)
+[2025-05-12 14:06:43 -0400] [42779] [INFO] Handling signal: term
+[2025-05-12 14:06:43 -0400] [42781] [INFO] Worker exiting (pid: 42781)
+[2025-05-12 14:06:43 -0400] [42779] [INFO] Shutting down: Master

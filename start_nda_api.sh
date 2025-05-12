@@ -13,21 +13,43 @@ PID_FILE="$LOG_DIR/nda_api.pid"
 # Create logs directory if it doesn't exist
 mkdir -p "$LOG_DIR"
 
-# Function to clean up processes
+# Function to clean up processes - enhanced version with more thorough cleanup
 cleanup_processes() {
-    echo "🧹 Cleaning up existing processes..."
+    echo "🧹 Performing thorough cleanup before starting..."
     
-    # Kill any ngrok processes
+    # Stop any existing service first using PID file if it exists
+    if [ -f "$PID_FILE" ]; then
+        read GUNICORN_PID NGROK_PID < "$PID_FILE"
+        
+        if ps -p "$NGROK_PID" > /dev/null 2>&1; then
+            echo "  - Stopping existing ngrok service (PID: $NGROK_PID)"
+            kill "$NGROK_PID" 2>/dev/null || true
+        fi
+        
+        if ps -p "$GUNICORN_PID" > /dev/null 2>&1; then
+            echo "  - Stopping existing gunicorn service (PID: $GUNICORN_PID)"
+            kill "$GUNICORN_PID" 2>/dev/null || true
+        fi
+        
+        # Remove PID file
+        rm "$PID_FILE" 2>/dev/null || true
+        echo "  - Removed existing PID file"
+        
+        # Give processes time to terminate gracefully
+        sleep 2
+    fi
+    
+    # Kill any ngrok processes regardless of PID file
     EXISTING_NGROK=$(ps aux | grep ngrok | grep -v grep | awk '{print $2}')
     if [ -n "$EXISTING_NGROK" ]; then
-        echo "  - Killing existing ngrok process(es)..."
+        echo "  - Killing all ngrok processes..."
         kill $EXISTING_NGROK 2>/dev/null || true
     fi
     
-    # Kill any gunicorn processes
+    # Kill any gunicorn processes regardless of PID file
     EXISTING_GUNICORN=$(ps aux | grep gunicorn | grep -v grep | awk '{print $2}')
     if [ -n "$EXISTING_GUNICORN" ]; then
-        echo "  - Killing existing gunicorn process(es)..."
+        echo "  - Killing all gunicorn processes..."
         kill $EXISTING_GUNICORN 2>/dev/null || true
     fi
     
@@ -37,25 +59,19 @@ cleanup_processes() {
     # Force kill any stubborn processes
     EXISTING_NGROK=$(ps aux | grep ngrok | grep -v grep | awk '{print $2}')
     if [ -n "$EXISTING_NGROK" ]; then
-        echo "  - Force killing stubborn ngrok process(es)..."
+        echo "  - Force killing stubborn ngrok processes..."
         kill -9 $EXISTING_NGROK 2>/dev/null || true
     fi
     
     EXISTING_GUNICORN=$(ps aux | grep gunicorn | grep -v grep | awk '{print $2}')
     if [ -n "$EXISTING_GUNICORN" ]; then
-        echo "  - Force killing stubborn gunicorn process(es)..."
+        echo "  - Force killing stubborn gunicorn processes..."
         kill -9 $EXISTING_GUNICORN 2>/dev/null || true
-    fi
-    
-    # Remove stale PID file if it exists
-    if [ -f "$PID_FILE" ]; then
-        echo "  - Removing stale PID file..."
-        rm "$PID_FILE"
     fi
     
     # Check if port is still in use
     if lsof -i :$PORT > /dev/null 2>&1; then
-        echo "  - Port $PORT is still in use. Attempting to free it..."
+        echo "  - Port $PORT is still in use. Freeing it up..."
         PROCESS_USING_PORT=$(lsof -t -i :$PORT)
         if [ -n "$PROCESS_USING_PORT" ]; then
             echo "  - Killing process using port $PORT: $PROCESS_USING_PORT"
@@ -63,10 +79,16 @@ cleanup_processes() {
         fi
     fi
     
-    echo "✅ Cleanup complete"
+    # Remove stale PID file if it exists (redundant check but safe)
+    if [ -f "$PID_FILE" ]; then
+        echo "  - Removing stale PID file..."
+        rm "$PID_FILE" 2>/dev/null || true
+    fi
+    
+    echo "✅ Thorough cleanup completed - ready for fresh instance"
 }
 
-# Clean up existing processes before starting
+# Perform thorough cleanup before starting
 cleanup_processes
 
 # Start the Flask app with Gunicorn in the background

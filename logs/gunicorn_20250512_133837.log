@@ -1,0 +1,15 @@
+[2025-05-12 13:38:41 -0400] [35615] [INFO] Starting gunicorn 23.0.0
+[2025-05-12 13:38:41 -0400] [35615] [INFO] Listening at: http://0.0.0.0:8000 (35615)
+[2025-05-12 13:38:41 -0400] [35615] [INFO] Using worker: sync
+[2025-05-12 13:38:41 -0400] [35617] [INFO] Booting worker with pid: 35617
+2025-05-12 13:38:41,734 - application - INFO - Using OpenAI client v1.x (version unknown)
+[2025-05-12 13:38:44 -0400] [35615] [INFO] Handling signal: winch
+[2025-05-12 13:38:45 -0400] [35615] [INFO] Handling signal: hup
+[2025-05-12 13:38:45 -0400] [35615] [INFO] Hang up: Master
+[2025-05-12 13:38:45 -0400] [35615] [ERROR] Worker (pid:35617) was sent SIGHUP!
+[2025-05-12 13:38:45 -0400] [35642] [INFO] Booting worker with pid: 35642
+2025-05-12 13:38:45,802 - application - INFO - Using OpenAI client v1.x (version unknown)
+[2025-05-12 13:39:08 -0400] [35642] [INFO] Worker exiting (pid: 35642)
+[2025-05-12 13:39:08 -0400] [35615] [INFO] Handling signal: term
+[2025-05-12 13:39:08 -0400] [35615] [ERROR] Worker (pid:35642) was sent SIGTERM!
+[2025-05-12 13:39:08 -0400] [35615] [INFO] Shutting down: Master

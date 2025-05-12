@@ -1,0 +1,12 @@
+[2025-05-12 12:48:01 -0400] [21170] [INFO] Starting gunicorn 23.0.0
+[2025-05-12 12:48:01 -0400] [21170] [ERROR] Connection in use: ('0.0.0.0', 8000)
+[2025-05-12 12:48:01 -0400] [21170] [ERROR] connection to ('0.0.0.0', 8000) failed: [Errno 48] Address already in use
+[2025-05-12 12:48:02 -0400] [21170] [ERROR] Connection in use: ('0.0.0.0', 8000)
+[2025-05-12 12:48:02 -0400] [21170] [ERROR] connection to ('0.0.0.0', 8000) failed: [Errno 48] Address already in use
+[2025-05-12 12:48:03 -0400] [21170] [ERROR] Connection in use: ('0.0.0.0', 8000)
+[2025-05-12 12:48:03 -0400] [21170] [ERROR] connection to ('0.0.0.0', 8000) failed: [Errno 48] Address already in use
+[2025-05-12 12:48:04 -0400] [21170] [ERROR] Connection in use: ('0.0.0.0', 8000)
+[2025-05-12 12:48:04 -0400] [21170] [ERROR] connection to ('0.0.0.0', 8000) failed: [Errno 48] Address already in use
+[2025-05-12 12:48:05 -0400] [21170] [ERROR] Connection in use: ('0.0.0.0', 8000)
+[2025-05-12 12:48:05 -0400] [21170] [ERROR] connection to ('0.0.0.0', 8000) failed: [Errno 48] Address already in use
+[2025-05-12 12:48:06 -0400] [21170] [ERROR] Can't connect to ('0.0.0.0', 8000)
